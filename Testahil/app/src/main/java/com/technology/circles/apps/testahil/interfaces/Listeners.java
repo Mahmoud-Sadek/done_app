@@ -1,5 +1,7 @@
 package com.technology.circles.apps.testahil.interfaces;
 
+import com.technology.circles.apps.testahil.models.SignUpModel;
+
 public interface Listeners {
 
     interface LoginListener {
@@ -22,7 +24,7 @@ public interface Listeners {
 
     interface SignUpListener
     {
-        void checkDataSignUp(String name, String phone_code, String phone, String password);
+        void checkDataSignUp(SignUpModel signUpModel);
 
     }
 

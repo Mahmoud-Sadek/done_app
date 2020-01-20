@@ -3,7 +3,7 @@ import 'package:done_app/tags/Tags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'SplashScreen.dart';
+import 'Screen/splash_screen/SplashScreen.dart';
 
 void main() {
   runApp(MyApp());

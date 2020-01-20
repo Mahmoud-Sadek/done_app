@@ -2,87 +2,100 @@ package com.technology.circles.apps.testahil.models;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Patterns;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.ObservableField;
+import androidx.databinding.library.baseAdapters.BR;
 
-import com.creative.share.apps.heragelawal.BR;
-import com.creative.share.apps.heragelawal.R;
+import com.creative.share.apps.testahil.R;
 
 public class LoginModel extends BaseObservable {
 
-    private String phone_code;
-    private String phone;
-    public ObservableField<String> error_phone_code = new ObservableField<>();
-    public ObservableField<String> error_phone = new ObservableField<>();
+    private String email;
+    private String password;
+
+    public ObservableField<String> error_email = new ObservableField<>();
+    public ObservableField<String> error_password = new ObservableField<>();
 
 
 
     public LoginModel() {
-        this.phone_code = "";
-        notifyPropertyChanged(BR.phone_code);
-        this.phone="";
-        notifyPropertyChanged(BR.phone);
+        this.email = "";
+        notifyPropertyChanged(BR.email);
+        this.password="";
+        notifyPropertyChanged(BR.password);
     }
 
 
 
     @Bindable
-    public String getPhone_code() {
-        return phone_code;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhone_code(String phone_code) {
-        this.phone_code = phone_code;
-        notifyPropertyChanged(BR.phone_code);
+    public void setEmail(String email) {
+        this.email = email;
+        notifyPropertyChanged(BR.email);
 
     }
 
     @Bindable
-    public String getPhone() {
-        return phone;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-        notifyPropertyChanged(BR.phone);
+    public void setPassword(String password) {
+        this.password = password;
+        notifyPropertyChanged(BR.password);
 
     }
 
 
     public boolean isDataValid(Context context)
     {
-        if (!TextUtils.isEmpty(phone_code)&&
-                !TextUtils.isEmpty(phone)
+        if (!TextUtils.isEmpty(email)&&
+                Patterns.EMAIL_ADDRESS.matcher(email).matches()&&
+                !TextUtils.isEmpty(password)&&
+                password.length()>=6
         )
         {
-            error_phone_code.set(null);
-            error_phone.set(null);
+            error_email.set(null);
+            error_password.set(null);
 
             return true;
         }else
         {
-            if (phone_code.isEmpty())
+            if (email.isEmpty())
             {
-                error_phone_code.set(context.getString(R.string.field_req));
+                error_email.set(context.getString(R.string.field_req));
+            }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            {
+                error_email.set(context.getString(R.string.inv_email));
             }else
             {
-                error_phone_code.set(null);
+                error_email.set(null);
+
             }
 
-            if (phone.isEmpty())
+            if (password.isEmpty())
             {
-                error_phone.set(context.getString(R.string.field_req));
+                error_password.set(context.getString(R.string.field_req));
+            }else if (password.length()<6)
+            {
+                error_password.set(context.getString(R.string.pas_short));
             }else
-            {
-                error_phone.set(null);
-            }
+                {
+                    error_password.set(null);
+
+                }
 
 
             return false;
         }
     }
+
 
 
 }

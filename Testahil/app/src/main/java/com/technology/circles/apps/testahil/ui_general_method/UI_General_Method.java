@@ -9,10 +9,9 @@ import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
-import com.creative.share.apps.heragelawal.R;
-import com.creative.share.apps.heragelawal.tags.Tags;
-import com.makeramen.roundedimageview.RoundedImageView;
+import com.creative.share.apps.testahil.R;
 import com.squareup.picasso.Picasso;
+import com.technology.circles.apps.testahil.tags.Tags;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,45 +35,6 @@ public class UI_General_Method {
             textView.setError(error);
 
         }
-    }
-
-    @BindingAdapter("adImage")
-    public static void adImage(View view,String endPoint)
-    {
-        if (view instanceof ImageView)
-        {
-            ImageView imageView = (ImageView) view;
-
-            if (endPoint!=null)
-            {
-                Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_URL_ADS+endPoint)).fit().into(imageView);
-            }
-        }
-
-    }
-
-    @BindingAdapter("subCategoryImage")
-    public static void subCategoryImage(RoundedImageView roundedImageView, String endPoint)
-    {
-        if (endPoint!=null)
-        {
-            Picasso.with(roundedImageView.getContext()).load(Uri.parse(Tags.IMAGE_URL_ADS_CATEGORY+endPoint)).fit().into(roundedImageView);
-        }
-    }
-
-    @BindingAdapter("subCategoryIcon")
-    public static void subCategoryIcon(View view,String endPoint)
-    {
-        if (view instanceof ImageView)
-        {
-            if (endPoint!=null)
-            {
-                ImageView imageView = (ImageView) view;
-
-                Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_URL_ADS_CATEGORY+endPoint)).fit().into(imageView);
-            }
-        }
-
     }
 
     @BindingAdapter("avatarUser")
@@ -111,31 +71,7 @@ public class UI_General_Method {
 
     }
 
-    @BindingAdapter("chatImage")
-    public static void chatImage(RoundedImageView roundedImageView, String endPoint)
-    {
-        if (endPoint!=null)
-        {
 
-            Picasso.with(roundedImageView.getContext()).load(Uri.parse(Tags.IMAGE_URL_CHAT+endPoint)).fit().into(roundedImageView);
-        }
-
-    }
-    @BindingAdapter("avatarCompany")
-    public static void avatarCompany(View view,String endPoint)
-    {
-        if (view instanceof CircleImageView)
-        {
-            CircleImageView circleImageView = (CircleImageView) view;
-
-            if (endPoint!=null)
-            {
-
-                Picasso.with(circleImageView.getContext()).load(Uri.parse(Tags.IMAGE_AVATAR+endPoint)).fit().into(circleImageView);
-            }
-        }
-
-    }
 
 
     @BindingAdapter({"date"})
