@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.creative.share.apps.testahil.R;
 import com.creative.share.apps.testahil.databinding.ActivitySplashBinding;
-import com.technology.circles.apps.testahil.activities_fragments.activity_sign_in.LoginActivity;
+import com.technology.circles.apps.testahil.activities_fragments.activity_home.HomeActivity;
 import com.technology.circles.apps.testahil.language.LanguageHelper;
 import com.technology.circles.apps.testahil.preferences.Preferences;
 import com.technology.circles.apps.testahil.tags.Tags;
@@ -52,11 +52,15 @@ public class SplashActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 String session = preferences.getSession(SplashActivity.this);
                 if (session.equals(Tags.session_login)) {
-                    /*Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    /*Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();*/
-                } else {
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+
+                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
                 }

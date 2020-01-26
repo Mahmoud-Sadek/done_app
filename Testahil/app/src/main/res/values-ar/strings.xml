@@ -57,7 +57,7 @@
 
     <string name="call">اتصال</string>
 
-    <string name="share">شارك</string>
+    <string name="share">مشاركة</string>
     <string name="edit">تعديل</string>
     <string name="price">سعر</string>
     <string name="delete">حذف</string>
@@ -79,7 +79,7 @@
     <string name="commentss">تعليقات</string>
     <string name="more_comments">مزيد من التعليقات</string>
     <string name="show_all">اظهار الكل</string>
-    <string name="filter">فلتر</string>
+    <string name="filter">تصفية النتائج</string>
     <string name="enter_phone_number">أدخل رقم الجوال</string>
     <string name="code">الكود</string>
     <string name="enter_ph_in_en">أدخل رقمك من غير كود البلد باللغة الانجليزية </string>
@@ -126,4 +126,25 @@
     <string name="re_password">إعادة كلمة المرور</string>
     <string name="pas_not_match">كلمة المرور غير متطابقة</string>
     <string name="verification_code">كود التحقق</string>
+    <string name="favorite">المفضلة</string>
+    <string name="make_an_offer">إقترح عرضا</string>
+    <string name="no_data_to_show">لا توجد عناصر لعرضها</string>
+    <string name="offers">عروض</string>
+    <string name="nearby">قريب</string>
+    <string name="setting">الإعدادت</string>
+    <string name="all_services_are_reserved_for_homecare_app">جميع الحقوق محفوظة لهذا التطبيق.</string>
+    <string name="rate_app">تقييم التطبيق</string>
+    <string name="subject">الموضوع</string>
+    <string name="message">الرسالة</string>
+    <string name="disable_all">تعطيل الكل</string>
+    <string name="order_by">ترتيب بحسب</string>
+    <string name="merchant_branch">تاجر فرع</string>
+    <string name="merchant_online">تاجر إلكتروني</string>
+    <string name="cities">المدن</string>
+    <string name="search2">بحث</string>
+    <string name="store_name">إسم المتجر</string>
+    <string name="work_type">نوع النشاط</string>
+    <string name="responsible_name">إسم المسؤول (إختياري)</string>
+    <string name="inv_phone">رقم الجوال غير صحيح</string>
+
 </resources>

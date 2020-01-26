@@ -22,7 +22,27 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name="com.technology.circles.apps.testahil.activities_fragments.activity_code_verification.CodeVerificationActivity"></activity>
+        <activity
+            android:name="com.technology.circles.apps.testahil.activities_fragments.activity_search.SearchActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name="com.technology.circles.apps.testahil.activities_fragments.activity_contact_us.ContactUsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name="com.technology.circles.apps.testahil.activities_fragments.activity_terms.TermsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name="com.technology.circles.apps.testahil.activities_fragments.activity_make_offer.MakeOfferActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name="com.technology.circles.apps.testahil.activities_fragments.activity_home.HomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name="com.technology.circles.apps.testahil.activities_fragments.activity_code_verification.CodeVerificationActivity" />
         <activity
             android:name="com.technology.circles.apps.testahil.activities_fragments.activity_sign_up.SignUpActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -42,6 +62,13 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_api_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

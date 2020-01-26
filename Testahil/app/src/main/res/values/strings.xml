@@ -20,6 +20,9 @@
     <string name="contact_us">Contact Us</string>
     <string name="logout">Logout</string>
 
+    <string name="all_services_are_reserved_for_homecare_app">All rights are reserved for this App</string>
+
+
     <string name="skip">skip</string>
 
     <string name="field_req">Field required</string>
@@ -118,4 +121,24 @@
     <string name="re_password">Re-password</string>
     <string name="pas_not_match">Password not match</string>
     <string name="verification_code">Verification code</string>
+    <string name="favorite">Favorite</string>
+    <string name="make_an_offer">Make an offer</string>
+    <string name="no_data_to_show">No data to show</string>
+    <string name="offers">Offers</string>
+    <string name="nearby">NearBy</string>
+    <string name="setting">Settings</string>
+    <string name="rate_app">Rate App</string>
+    <string name="subject">Subject</string>
+    <string name="message">Message</string>
+    <string name="disable_all">Disable All</string>
+    <string name="order_by">Order By</string>
+    <string name="merchant_branch">Merchant branch</string>
+    <string name="merchant_online">Merchant online</string>
+    <string name="cities">Cities</string>
+    <string name="search2">Search</string>
+    <string name="store_name">Store name</string>
+    <string name="work_type">Work type</string>
+    <string name="responsible_name">Responsible name(optional)</string>
+    <string name="inv_phone">Invalid phone</string>
+
 </resources>

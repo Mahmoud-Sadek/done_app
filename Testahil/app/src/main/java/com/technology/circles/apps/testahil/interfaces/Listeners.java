@@ -1,5 +1,7 @@
 package com.technology.circles.apps.testahil.interfaces;
 
+import com.technology.circles.apps.testahil.models.ContactUsModel;
+import com.technology.circles.apps.testahil.models.MakeOfferModel;
 import com.technology.circles.apps.testahil.models.SignUpModel;
 
 public interface Listeners {
@@ -35,11 +37,24 @@ public interface Listeners {
 
 
 
+    interface MoreActions
+    {
+        void aboutApp();
+        void contactUs();
+        void rateApp();
+        void terms();
+        void share();
+        void editProfile();
+    }
 
     interface ContactListener
     {
-        void sendContact(String name, String email, String phone_code, String phone, String message);
+        void sendContact(ContactUsModel contactUsModel);
     }
 
+    interface MakeOfferListener
+    {
+        void sendOffer(MakeOfferModel makeOfferModel);
+    }
 
 }
