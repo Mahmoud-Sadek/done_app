@@ -29,7 +29,7 @@ class _SplashPageState extends State<SplashPage>
     });
     _animation.addStatusListener((state) {
       if (state == AnimationStatus.completed) {
-        Navigator.of(context).pushReplacementNamed('/loginScreen');
+        Navigator.of(context).pushReplacementNamed('/homeScreen');
         /*Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => LoginScreen()),
             (Route<dynamic> route) => false);*/

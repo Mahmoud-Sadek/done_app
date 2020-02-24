@@ -1,13 +1,19 @@
-import 'dart:developer';
 import 'dart:io';
+import 'dart:isolate';
 import 'dart:typed_data';
 
+import 'package:done_app/Screen/add_date_screen/password_dialog.dart';
+import 'package:done_app/models/alarm_body.dart';
 import 'package:done_app/tags/Tags.dart';
+import 'package:done_app/utils/database.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_record/flutter_record.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum PermissionState {
   granted,
@@ -25,70 +31,67 @@ class AddDateScreen extends StatefulWidget {
 
 class _AddDateScreenState extends State<AddDateScreen> {
   FlutterRecord _flutterRecord;
-  String _date, _time = "";
+  String _date = "", _time = "", _privacy="";
   DateTime _dateTimeDate, _dateTimeTime;
   String recordState = "";
   String _recordPath = "";
+  Uint8List _bytes;
+
+  DBHelper dbHelper;
+
+  TextEditingController messageEditingController = TextEditingController();
+  Future<List<AlarmBody>> products;
 
   @override
   void initState() {
     super.initState();
     _flutterRecord = FlutterRecord();
     //_checkAudioPermission();
+    dbHelper = DBHelper();
+    refreshDatabaseist();
+  }
+
+  refreshDatabaseist() {
+    setState(() {
+      products = dbHelper.getproducts();
+    });
   }
 
   Future<void> _checkMicPermission() async {
     _startRecord();
-
   }
 
   void _startRecord() async {
-    try
-    {
-      _recordPath = await _flutterRecord.startRecorder(path: "done_app_record", maxVolume: 1.0);
+    try {
+      _recordPath = await _flutterRecord.startRecorder(
+          path: "done_app_record", maxVolume: 1.0);
       print("path $_recordPath");
-
-
-    }on PlatformException
-    {
-
-    }
-
+    } on PlatformException {}
   }
 
   void _stopRecord() async {
-
-    await _flutterRecord.stopRecorder().then((value)
-    {
-       _flutterRecord.setVolume(1.0);
-       _flutterRecord.startPlayer(path: _recordPath);
+    await _flutterRecord.stopRecorder().then((value) {
+      _flutterRecord.setVolume(1.0);
+      _flutterRecord.startPlayer(path: _recordPath);
     });
-
-
   }
 
-  Future<void> _shareAudio () async
-  {
-
-    if(_recordPath != "Recorder is already recording")
-    {
-      Uint8List _bytes = await File(_recordPath).readAsBytes();
-      await Share.file("Share sound","record.aac",_bytes,"*/*",text: "");
-    }else
-      {
-        _createAlertDialog("Please record a voice");
-      }
-
-
+  Future<void> _shareAudio() async {
+    if (_recordPath != "Recorder is already recording.") {
+      _bytes = await File(_recordPath).readAsBytes();
+      await Share.file("Share sound", "record.aac", _bytes, "*/*", text: "");
+    } else {
+      _createAlertDialog("Please record a voice");
+    }
   }
 
   void _displayDateCalender() {
     DateTime _now = DateTime.now();
     showDatePicker(
-        context: context,
-        initialDate: _now,
-        firstDate: _now,
-        lastDate: DateTime(_now.year + 100))
+            context: context,
+            initialDate: _now,
+            firstDate: _now,
+            lastDate: DateTime(_now.year + 100))
         .then((date) {
       setState(() {
         _date = DateFormat("dd/MMM/yyyy").format(date);
@@ -98,12 +101,11 @@ class _AddDateScreenState extends State<AddDateScreen> {
   }
 
   void _displayTimeCalender() {
-    showTimePicker(context: context, initialTime: TimeOfDay.now())
-        .then((time) {
+    showTimePicker(context: context, initialTime: TimeOfDay.now()).then((time) {
       setState(() {
         DateTime now = DateTime.now();
         DateTime dateTime =
-        DateTime(now.year, now.month, now.day, time.hour, time.minute);
+            DateTime(now.year, now.month, now.day, time.hour, time.minute);
         _time = DateFormat("hh:mm aa").format(dateTime);
         _dateTimeTime = dateTime;
       });
@@ -114,7 +116,6 @@ class _AddDateScreenState extends State<AddDateScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
 
     return Scaffold(
       body: Container(
@@ -190,6 +191,7 @@ class _AddDateScreenState extends State<AddDateScreen> {
             TextFormField(
               keyboardType: TextInputType.multiline,
               cursorColor: Colors.white,
+              controller: messageEditingController,
               maxLines: 5,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
@@ -253,16 +255,38 @@ class _AddDateScreenState extends State<AddDateScreen> {
                     color: Colors.white),
               ),
             ),
+            RadioButtonGroup(labels: <String>[
+              "Public",
+              "Personal",
+            ],
+                labelStyle: TextStyle(color: Colors.white),orientation: GroupedButtonsOrientation.VERTICAL,onSelected: (String selected) {
+              _privacy=selected;
+              print(selected);
+            }),
+            SizedBox(
+              height: 0.0,
+            ),
+
             Padding(
-              padding: EdgeInsets.only(top: 40.0),
+              padding: EdgeInsets.only(top: 10.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
                       child: RaisedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      addAlarm();
+                      /*final int helloAlarmID = 0;
+                      await AndroidAlarmManager.initialize();
 
+                      await AndroidAlarmManager.periodic(const Duration(seconds: 10), helloAlarmID, printHello);
+                      await AndroidAlarmManager.periodic(
+                          const Duration(seconds: 5), 0, printPeriodic,
+                          wakeup: true, exact: true);
+                      await AndroidAlarmManager.oneShot(
+                          const Duration(seconds: 5), 1, printOneShot);
+                      printHello();*/
                     },
                     color: Tags.secondColor,
                     shape: RoundedRectangleBorder(
@@ -279,7 +303,6 @@ class _AddDateScreenState extends State<AddDateScreen> {
                   Expanded(
                       child: RaisedButton(
                     onPressed: () {
-
                       _shareAudio();
                     },
                     color: Tags.colorGreen,
@@ -436,4 +459,90 @@ class _AddDateScreenState extends State<AddDateScreen> {
         });
   }
 
+  void printHello() {
+    final DateTime now = DateTime.now();
+    final int isolateId = Isolate.current.hashCode;
+    print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
+    _createAlertDialog("sadek");
+  }
+
+  void printPeriodic() => print("Periodic!");
+
+  void printOneShot() => print("One shot!");
+
+  Future<void> addAlarm() async {
+
+
+
+    if (!validate()) return;
+    if (_recordPath != "Recorder is already recording.") {
+      _bytes = await File(_recordPath).readAsBytes();
+    } else {
+
+      Fluttertoast.showToast(
+          msg: "Please record a voice",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    }
+
+    if(_privacy=="Personal"){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if(!prefs.containsKey('password'))
+        showDialog(
+          context: context,
+          builder: (_) => PasswordDialog(),
+        ).then((val) async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          if (prefs.containsKey('password'))
+            addToDatabase();
+        });
+      else addToDatabase();
+    }else{
+
+        addToDatabase();
+    }
+
+  }
+
+  bool validate()  {
+    String message = '';
+    if (_date.isEmpty)
+      message = "Enter Date !!";
+    else if (_time.isEmpty)
+      message = "Enter Time !!";
+    else if (messageEditingController.text.isEmpty)
+      message = "Enter Description !!";
+    else if (_recordPath.isEmpty) message = "Add Recoded !!";
+    else if (_privacy.isEmpty) message = "Select Privacy !!";
+
+    if (message.isEmpty) return true;
+
+
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.blue,
+        textColor: Colors.white,
+        fontSize: 16.0);
+    return false;
+  }
+
+  void addToDatabase() {
+    AlarmBody body = new AlarmBody();
+    body.time = _time;
+    body.date = _date;
+    body.description = messageEditingController.text;
+    body.file_url = _bytes;
+    body.privacy = _privacy;
+
+    dbHelper.add(body);
+    Navigator.pop(context);
+  }
 }
