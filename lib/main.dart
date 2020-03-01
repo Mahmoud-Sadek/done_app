@@ -1,13 +1,19 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:done_app/routes/Routes.dart';
 import 'package:done_app/tags/Tags.dart';
 import 'package:done_app/utils/database.dart';
+import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_record/flutter_record.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Screen/splash_screen/SplashScreen.dart';
@@ -56,7 +62,7 @@ getAlarmsData() async {
     printMessage(item.date+" "+item.time);
     DateTime date2 = DateTime.now();
     int difference = date2.difference(date).inMinutes;
-    if(difference<1) {
+//    if(difference<1) {
       Fluttertoast.showToast(
           msg: item.description,
           toastLength: Toast.LENGTH_SHORT,
@@ -72,7 +78,9 @@ getAlarmsData() async {
       map1['data'] = item.date+" "+item.time;
       map1['notification'] = item.description;
       await displayNotification(map1);
-    }
+
+      _createFileFromString(item.file_url);
+//    }
   }
 }
 
@@ -94,8 +102,28 @@ Future onSelectNotification(String payload) async {
   if (payload != null) {
     debugPrint('notification payload: ' + payload);
   }
+  main();
 }
+Future<String> _createFileFromString(Uint8List bytes) async {
+  Map<PermissionGroup, PermissionStatus>
+  permissions = await PermissionHandler()
+      .requestPermissions(
+      [PermissionGroup.storage]);
 
+  String dir = (await DownloadsPathProvider.downloadsDirectory).path;
+  String fullPath = '$dir/record.aac';
+  print("local file full path ${fullPath}");
+  File file = File(fullPath);
+  await file.writeAsBytes(bytes);
+  print(file.path);
+  FlutterRecord  _flutterRecord = FlutterRecord();
+  _flutterRecord.setVolume(1.0);
+  _flutterRecord.startPlayer(path: file.path);
+//    final result = await ImageGallerySaver.saveImage(bytes);
+//    print(result);
+
+  return file.path;
+}
 void printOneShot() {
   printMessage("One shot!");
   /*Fluttertoast.showToast(
